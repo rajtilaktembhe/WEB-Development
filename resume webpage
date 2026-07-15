@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Resume</title>
+    <style>
+        /* Simple CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        /* Photo styling */
+        .photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto 20px auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2rem;
+            color: #2c3e50;
+        }
+
+        .contact-info {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+
+        .job-title, .school {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .date {
+            color: #777;
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <!-- Replace src with your image file -->
+        <img src="https://photolive.in/whatsapp-dp/" alt="Your Name" class="photo">
+        <h1>John Snow</h1>
+        <div class="contact-info">
+            <p>john.doe@email.com | (555) 123-4567 | New York, NY</p>
+        </div>
+    </header>
+
+    <section>
+        <h2>Summary</h2>
+        <p>Dedicated professional with experience in project management and team leadership. Committed to delivering high-quality results and solving complex problems efficiently.</p>
+    </section>
+
+    <section>
+        <h2>Experience</h2>
+        
+        <div class="job">
+            <div class="job-title">Project Manager</div>
+            <div class="date">Company Name | 2021 - Present</div>
+            <ul>
+                <li>Led a team of 10 people to complete projects on time.</li>
+                <li>Improved workflow efficiency by 20%.</li>
+                <li>Managed budgets exceeding $500k.</li>
+            </ul>
+        </div>
+
+        <div class="job">
+            <div class="job-title">Junior Analyst</div>
+            <div class="date">Previous Corp | 2019 - 2021</div>
+            <ul>
+                <li>Analyzed data trends to support decision making.</li>
+                <li>Created weekly reports for senior management.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2>Education</h2>
+        <div class="edu">
+            <div class="school">Bachelor of Science in Business</div>
+            <div class="date">University Name | 2015 - 2019</div>
+        </div>
+    </section>
+
+</body>
+</html>
