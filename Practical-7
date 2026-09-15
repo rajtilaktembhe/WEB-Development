@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Interactive FAQ Section</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .student-info {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            text-align: right;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            width: 700px;
+            max-width: 90%;
+            margin: 100px auto 40px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .faq-item {
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .question {
+            width: 100%;
+            padding: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            text-align: left;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .question:hover {
+            background-color: #0056b3;
+        }
+
+        .answer {
+            display: none;
+            padding: 15px;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 600px) {
+
+            .student-info {
+                top: 10px;
+                right: 15px;
+                font-size: 14px;
+            }
+
+            .container {
+                margin-top: 90px;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .question {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="student-info">
+        <strong>Rajtilak Tembhe</strong><br>
+        <strong>USN: CM25106</strong>
+    </div>
+
+    <div class="container">
+
+        <h1>Frequently Asked Questions</h1>
+
+        <div class="faq-item">
+            <button class="question">
+                What are the college working hours?
+            </button>
+
+            <div class="answer">
+                The college generally operates from 9:00 AM to 5:00 PM,
+                Monday to Friday.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="question">
+                How can I apply for a leave?
+            </button>
+
+            <div class="answer">
+                Students can apply for leave through the college portal
+                or by submitting a leave application to their department.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="question">
+                Where can I check my examination timetable?
+            </button>
+
+            <div class="answer">
+                The examination timetable is available on the college
+                website and student portal.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="question">
+                How can I contact my department?
+            </button>
+
+            <div class="answer">
+                You can contact the department office directly or use
+                the official college email and contact details.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="question">
+                Where can I get study materials?
+            </button>
+
+            <div class="answer">
+                Study materials can be obtained from your teachers,
+                college LMS, or the student portal.
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+
+        const questions = document.querySelectorAll(".question");
+
+        questions.forEach(function(question) {
+
+            question.addEventListener("click", function() {
+
+                const answer = this.nextElementSibling;
+
+                if (answer.style.display === "block") {
+                    answer.style.display = "none";
+                } else {
+                    answer.style.display = "block";
+                }
+
+            });
+
+        });
+
+    </script>
+
+</body>
+
+</html>
