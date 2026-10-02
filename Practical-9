@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Personal To-Do List</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-100 p-4 text-slate-800">
+  <main class="mx-auto mt-10 max-w-xl rounded-2xl bg-white p-6 shadow-lg sm:p-8">
+    <header class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+      <div>
+        <h1 class="text-3xl font-bold">My To-Do List</h1>
+        <p class="mt-2 text-slate-500">
+          Keep track of your academic and personal tasks.
+        </p>
+      </div>
+
+      <div class="rounded-lg bg-blue-50 px-4 py-3 text-left sm:text-right">
+        <p class="font-semibold text-slate-800">Rajtilak Tembhe</p>
+        <p class="text-sm text-slate-600">USN: CM25106</p>
+      </div>
+    </header>
+
+    <form id="task-form" class="flex gap-2">
+      <label for="task-input" class="sr-only">New task</label>
+      <input
+        id="task-input"
+        type="text"
+        placeholder="Add a task..."
+        maxlength="120"
+        required
+        class="min-w-0 flex-1 rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+      />
+      <button
+        type="submit"
+        class="rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700"
+      >
+        Add
+      </button>
+    </form>
+
+    <ul id="task-list" class="mt-6 space-y-3" aria-live="polite"></ul>
+    <p id="empty-message" class="mt-6 text-center text-slate-500">
+      No tasks yet. Add one above!
+    </p>
+  </main>
+
+  <script>
+    const form = document.querySelector("#task-form");
+    const input = document.querySelector("#task-input");
+    const taskList = document.querySelector("#task-list");
+    const emptyMessage = document.querySelector("#empty-message");
+
+    let tasks = JSON.parse(localStorage.getItem("todo-tasks") || "[]");
+
+    function saveTasks() {
+      localStorage.setItem("todo-tasks", JSON.stringify(tasks));
+    }
+
+    function renderTasks() {
+      taskList.replaceChildren();
+      emptyMessage.classList.toggle("hidden", tasks.length > 0);
+
+      tasks.forEach((task) => {
+        const item = document.createElement("li");
+        item.className =
+          "flex items-center gap-3 rounded-lg border border-slate-200 p-3";
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = task.completed;
+        checkbox.setAttribute(
+          "aria-label",
+          `Mark "${task.text}" completed`
+        );
+        checkbox.className = "h-5 w-5 accent-blue-600";
+
+        checkbox.addEventListener("change", () => {
+          task.completed = checkbox.checked;
+          saveTasks();
+          renderTasks();
+        });
+
+        const text = document.createElement("span");
+        text.textContent = task.text;
+        text.className = "flex-1 break-words";
+
+        if (task.completed) {
+          text.classList.add("text-slate-400", "line-through");
+        }
+
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.textContent = "Delete";
+        deleteButton.setAttribute("aria-label", `Delete "${task.text}"`);
+        deleteButton.className =
+          "rounded-md px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50";
+
+        deleteButton.addEventListener("click", () => {
+          tasks = tasks.filter((entry) => entry.id !== task.id);
+          saveTasks();
+          renderTasks();
+        });
+
+        item.append(checkbox, text, deleteButton);
+        taskList.append(item);
+      });
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const text = input.value.trim();
+      if (!text) return;
+
+      tasks.push({
+        id: crypto.randomUUID(),
+        text,
+        completed: false
+      });
+
+      saveTasks();
+      renderTasks();
+      form.reset();
+      input.focus();
+    });
+
+    renderTasks();
+  </script>
+</body>
+</html>
