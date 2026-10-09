@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My To-Do List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #dbeafe, #ede9fe, #fce7f3);
+            font-family: Arial, sans-serif;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+        }
+        .task-item {
+            animation: appear 0.3s ease;
+        }
+        @keyframes appear {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 sm:p-8">
+
+    <header class="max-w-5xl mx-auto flex justify-end mb-8">
+        <div class="bg-white/80 shadow-md rounded-xl px-5 py-3 text-right border border-white">
+            <p class="font-bold text-indigo-700">Rajtilak Tembhe</p>
+            <p class="text-sm text-gray-600">Roll No: CM25106</p>
+        </div>
+    </header>
+
+    <main class="max-w-2xl mx-auto">
+        <section class="glass rounded-3xl shadow-2xl overflow-hidden">
+            <div class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white p-8 text-center">
+                <div class="text-5xl mb-3">✦</div>
+                <h1 class="text-3xl sm:text-4xl font-extrabold mb-3">My To-Do List</h1>
+                <p class="text-indigo-100">Plan your day. Complete your goals.</p>
+            </div>
+
+            <div class="p-5 sm:p-8">
+                <form id="taskForm" class="flex gap-2 mb-6">
+                    <input
+                        type="text"
+                        id="taskInput"
+                        placeholder="✍️ Enter your next task..."
+                        class="flex-1 min-w-0 p-4 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:outline-none bg-gray-50"
+                    >
+                    <button
+                        type="submit"
+                        class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-5 rounded-xl shadow-lg transition">
+                        + Add
+                    </button>
+                </form>
+
+                <div class="grid grid-cols-3 gap-3 mb-6">
+                    <div class="bg-indigo-50 rounded-xl p-3 text-center">
+                        <p class="text-sm text-indigo-600 font-semibold">Total</p>
+                        <p id="totalTasks" class="text-2xl font-extrabold text-indigo-800">0</p>
+                    </div>
+                    <div class="bg-green-50 rounded-xl p-3 text-center">
+                        <p class="text-sm text-green-600 font-semibold">Completed</p>
+                        <p id="completedTasks" class="text-2xl font-extrabold text-green-700">0</p>
+                    </div>
+                    <div class="bg-pink-50 rounded-xl p-3 text-center">
+                        <p class="text-sm text-pink-600 font-semibold">Pending</p>
+                        <p id="pendingTasks" class="text-2xl font-extrabold text-pink-700">0</p>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <div class="flex justify-between text-sm font-semibold text-gray-600 mb-2">
+                        <span>Daily Progress</span>
+                        <span id="progressText">0%</span>
+                    </div>
+                    <div class="h-3 bg-gray-200 rounded-full overflow-hidden">
+                        <div id="progressBar" class="h-full bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">Your Tasks 📋</h2>
+                    <button id="clearAll" class="text-sm text-red-500 hover:text-red-700 font-semibold">
+                        Clear All
+                    </button>
+                </div>
+
+                <ul id="taskList" class="space-y-3"></ul>
+
+                <div id="emptyMessage" class="text-center py-10 text-gray-400">
+                    <div class="text-5xl mb-3">📝</div>
+                    <p class="font-semibold text-gray-500">No tasks yet!</p>
+                    <p class="text-sm mt-1">Add a task and make today productive.</p>
+                </div>
+
+                <p class="text-center text-xs text-gray-400 mt-8">
+                    Stay focused • Stay organized • Achieve more ✨
+                </p>
+            </div>
+        </section>
+
+        <p class="text-center text-sm text-gray-500 mt-5">
+            Designed by Rajtilak Tembhe | CM25106
+        </p>
+    </main>
+
+    <script>
+        const taskForm = document.getElementById("taskForm");
+        const taskInput = document.getElementById("taskInput");
+        const taskList = document.getElementById("taskList");
+        const totalTasks = document.getElementById("totalTasks");
+        const completedTasks = document.getElementById("completedTasks");
+        const pendingTasks = document.getElementById("pendingTasks");
+        const progressText = document.getElementById("progressText");
+        const progressBar = document.getElementById("progressBar");
+        const emptyMessage = document.getElementById("emptyMessage");
+        const clearAll = document.getElementById("clearAll");
+
+        let tasks = [];
+
+        function renderTasks() {
+            taskList.innerHTML = "";
+
+            tasks.forEach((task, index) => {
+                const li = document.createElement("li");
+                li.className = "task-item flex items-center gap-3 p-4 rounded-xl border border-gray-100 bg-white shadow-sm hover:shadow-md transition";
+
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.checked = task.completed;
+                checkbox.className = "w-5 h-5 accent-indigo-600 cursor-pointer shrink-0";
+                checkbox.setAttribute("aria-label", "Mark task completed");
+
+                checkbox.addEventListener("change", () => {
+                    tasks[index].completed = checkbox.checked;
+                    renderTasks();
+                });
+
+                const text = document.createElement("span");
+                text.textContent = task.text;
+                text.className = "flex-1 min-w-0 break-words text-gray-700";
+
+                if (task.completed) {
+                    text.classList.add("line-through", "text-gray-400");
+                }
+
+                const deleteButton = document.createElement("button");
+                deleteButton.textContent = "✕";
+                deleteButton.className = "shrink-0 w-9 h-9 rounded-lg bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition font-bold";
+                deleteButton.setAttribute("aria-label", "Delete task");
+
+                deleteButton.addEventListener("click", () => {
+                    tasks.splice(index, 1);
+                    renderTasks();
+                });
+
+                li.append(checkbox, text, deleteButton);
+                taskList.appendChild(li);
+            });
+
+            const completed = tasks.filter(task => task.completed).length;
+            const pending = tasks.length - completed;
+            const progress = tasks.length ? Math.round(completed / tasks.length * 100) : 0;
+
+            totalTasks.textContent = tasks.length;
+            completedTasks.textContent = completed;
+            pendingTasks.textContent = pending;
+            progressText.textContent = progress + "%";
+            progressBar.style.width = progress + "%";
+            emptyMessage.classList.toggle("hidden", tasks.length > 0);
+        }
+
+        taskForm.addEventListener("submit", event => {
+            event.preventDefault();
+
+            const text = taskInput.value.trim();
+
+            if (!text) {
+                taskInput.focus();
+                return;
+            }
+
+            tasks.push({ text: text, completed: false });
+            taskInput.value = "";
+            renderTasks();
+            taskInput.focus();
+        });
+
+        clearAll.addEventListener("click", () => {
+            if (tasks.length && confirm("Are you sure you want to delete all tasks?")) {
+                tasks = [];
+                renderTasks();
+            }
+        });
+
+        renderTasks();
+    </script>
+
+</body>
+</html>
